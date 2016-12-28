@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.common.by import By
-import Basepage
+
+from src.test.common import Basepage
+
 
 class Toubao(Basepage):
     Username=(By.ID, 'j_username')
