@@ -1,17 +1,126 @@
-from selenium import selenium,webdriver
-import time
-from time import sleep
-import config
+# coding=utf-8
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 
 
 class Basepage(object):
-    def __init__(self):
-        self.webdriver = webdriver
+    '''
+    启动默认浏览器：chrome，ie，Firefox
+    '''
+    def __init__(self,browser = 'ff'):
+        if browser == "firefox" or browser == "ff":
+            driver = webdriver.Firefox()
+        elif browser == "chrome":
+            driver = webdriver.Chrome()
+        elif browser == "internet explorer" or browser == "ie":
+            driver = webdriver.Ie()
+        elif browser == "opera":
+            driver = webdriver.Opera()
+        elif browser == "phantomjs":
+            driver = webdriver.PhantomJS()
+        try:
+            self.driver = driver
+        except Exception:
+            raise NameError("Not found %s browser,You can enter 'ie', 'ff' or 'chrome'." % browser)
 
-    def my_open_browser(self):
-        self.browser = webdriver.Ie(config.IEDriverServer.DRIVER_OF_IE)
-        self.url = self.browser.get(config.IEDriverServer.BASE_URL)
+    def element_wait(self,secs):#没有添加判空的方法
+        (by,value) = (None,None)
+        #index      = 0
+        if by == "id":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.ID,value))
+        elif by == "name":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.NAME,value))
+        elif by == "class":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.CLASS_NAME,value))
+        elif by == "link_text":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.LINK_TEXT,value))
+        elif by == "xpath":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.XPATH,value))
+        elif by == "css":
+            WebDriverWait(self.driver,secs,2).until(EC.presence_of_all_elements_located(By.CSS_SELECTOR,value))
+        else:
+            raise NameError("请输入正确的元素类型！")
+    def get_element(self):#没有添加判空的方法
+        (by, value) = (None, None)
+        if by == "id":
+            element = self.driver.find_element(value)
+        elif by == "name":
+            element = self.driver.find_element(value)
+        elif by == "class":
+            element = self.driver.find_element(value)
+        elif by == "link_text":
+            element = self.driver.find_element_by_link_text(value)
+        elif by == "xpath":
+            element = self.driver.find_element_by_xpath(value)
+        elif by == "css":
+            element = self.driver.find_element_by_css_selector(value)
+        else:
+            raise NameError("请输入正确的元素类型！")
+        return element
 
-        return self.url
+    def open(self,url):
+        self.driver.get(url)
+
+    def max_window(self):
+        self.driver.maximize_window()
+
+    def set_windows(self,wide,high):
+        self.driver.set_window_size(wide,high)
+
+    def type(self,ele,text):
+        self.element_wait(ele)
+        cl = self.get_element(ele)
+        cl.send_keys(text)
+
+    def clear(self,ele):
+        self.element_wait(ele)
+        cl = self.get_element(ele)
+        cl.clear()
+
+    def click(self,ele):
+        self.element_wait(ele)
+        cl = self.get_element(ele)
+        cl.click()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
