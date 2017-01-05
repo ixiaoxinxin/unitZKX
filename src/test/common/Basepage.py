@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-from config import env
-from log import log
-import time, sys
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, UnexpectedAlertPresentException, WebDriverException
+
+
+import sys
+import time
+
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoAlertPresentException
+
+from config import env
+from src.test.common import log
 
 
 class compatiblemethod(object):
@@ -82,16 +86,22 @@ class WebBrowser:
         except:
             log.step_warning(str(sys.exc_info()))
 
+    @compatiblemethod
+    def SwitchToFrame(cls, frame):
+        '''必须传入frame这个参数'''
+        log.step_normal("SwitchToFrame()")
+        env.threadlocal.BROWSER.switch_to.frame(frame)
 
+    @compatiblemethod
+    def SwitchToDefaultContent(cls):
+        '''默认的frame不需要传参'''
+        log.step_normal("SwitchToDefaultContent()")
 
-
-
-
-
-
-
-
-
+        try:
+            env.threadlocal.BROWSER.switch_to.default_content()
+        except:
+            log.step_warning("env.threadlocal.BROWSER.switch_to.default_content()")
+            pass
 
 
     # @compatiblemethod
@@ -120,6 +130,113 @@ class WebBrowser:
     #     log.step_normal(u"Element [%s]: Navigate To [%s]" % (cls.__name__, url))
     #     env.threadlocal.BROWSER.get(url)
     #     time.sleep(3)
+
+
+    # @compatiblemethod
+    # def AlertTextHave(cls, txt_value):
+    #     log.step_normal("AlertTextHave [%s]" % txt_value)
+    #     alert_text = env.threadlocal.BROWSER.switch_to_alert().text()
+    #
+    #     if txt_value in alert_text:
+    #         log.step_pass("pass")
+    #     else:
+    #         log.step_fail("fail")
+    #     env.threadlocal.BROWSER.switch_to_default_content()
+
+
+    # @compatiblemethod
+    # def SwitchToNewPopWindow(cls):
+    #     log.step_normal("SwitchToNewPopWindow()")
+    #
+    #     t = 0
+    #     while (t < 10):
+    #         t = t + 1
+    #         time.sleep(3)
+    #
+    #         if len(env.threadlocal.BROWSER.window_handles) < 2:
+    #             log.step_normal("Pop Window Not Found. Wait 3 Seconds then Try Again!")
+    #         else:
+    #             break
+    #
+    #     env.threadlocal.BROWSER.switch_to.window(env.threadlocal.BROWSER.window_handles[-1])
+    #
+    #     log.step_normal("Switch To The New Window of : %s" % str(env.threadlocal.BROWSER.window_handles))
+    #
+    # @compatiblemethod
+    # def SwitchToDefaultWindow(cls):
+    #     log.step_normal("SwitchToDefaultWindow()")
+    #
+    #     log.step_normal("Switch To The Default Window of: %s" % str(env.threadlocal.BROWSER.window_handles))
+    #
+    #     try:
+    #         env.threadlocal.BROWSER.switch_to.window(env.threadlocal.BROWSER.window_handles[0])
+    #     except:
+    #         log.step_warning("env.threadlocal.BROWSER.switch_to.window(env.threadlocal.BROWSER.window_handles[0])")
+    #         pass
+
+
+class WebElement:
+    (by, value) = (None, None)
+    index       = 0
+
+    @compatiblemethod
+    def __init__(cls,by=None, value=None):
+        '''by和value的值就是页面参数.by和.value的值'''
+        cls.by = by
+        cls.value = value
+
+    @compatiblemethod
+    def Set(cls, value):
+        log.step_normal(u"Element [%s]: Set [%s]." % (cls.__name__, value))
+
+        value = str(value)
+
+        cls.__wait()
+        elements = env.threadlocal.BROWSER.find_elements(cls.by, cls.value)
+
+        if elements[cls.index].tag_name == "select" or elements[cls.index].tag_name == "ul":
+            cls.Select(value) #有可能是下拉框取值
+
+        else:
+            elements[cls.index].clear() #先清空输入框
+            action = webdriver.ActionChains(env.threadlocal.BROWSER)
+            action.send_keys_to_element(elements[cls.index], value)
+            action.perform()
+            cls.__clearup()
+
+    @compatiblemethod
+    def Click(cls):
+        log.step_normal("Element [%s]: Click()" % (cls.__name__))
+        cls.__wait()
+        elements = env.threadlocal.BROWSER.find_elements(cls.by, cls.value)
+        action = webdriver.ActionChains(env.threadlocal.BROWSER)
+        action.click(elements[cls.index])
+        action.perform()
+        cls.__clearup()
+
+
+
+
+
+
+
+    # @compatiblemethod
+    # def ScrollIntoView(cls):
+    #     log.step_normal(u"Element [%s]: ScrollToView()" % cls.__name__)
+    #
+    #     cls.__wait()
+    #     elements = env.threadlocal.BROWSER.find_elements(cls.by, cls.value)
+    #     i = 0
+    #     while not elements[cls.index].is_displayed():
+    #         WebBrowser.ScrollTo(0, i)
+    #         i = i + 10
+    #
+    #         if i == 1000:
+    #             log.step_normal("still not displayed. break out.")
+
+
+
+
 
 
 
