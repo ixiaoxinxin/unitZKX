@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, shutil, datetime
+import os, datetime
 from config import env
 import common
 
@@ -243,8 +243,8 @@ def generate_report_history():
     
     
     with open(os.path.join(env.RESULT_PATH, "result", "history.html"), "w") as f:
-        f.write(html_source_header(title="Knitter Web Automation Test History"))
-        f.write(html_source_body(title="Knitter Web Automation Test History"))
+        f.write(html_source_header(title="ixiaoxinxin Web Automation Test History"))
+        f.write(html_source_body(title="ixiaoxinxin Web Automation Test History"))
         f.write(html_source_table_history_header())
         
         i = 0

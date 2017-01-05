@@ -166,9 +166,9 @@ def __run_test_module(module):
                     quit_browser(env.threadlocal.BROWSER)
                     env.threadlocal.BROWSER = None
     
-    if (env.threadlocal.BROWSER != None):
-        quit_browser(env.threadlocal.BROWSER)
-        env.threadlocal.BROWSER = None
+                if (env.threadlocal.BROWSER != None):
+                    quit_browser(env.threadlocal.BROWSER)
+                    env.threadlocal.BROWSER = None
 
 
 

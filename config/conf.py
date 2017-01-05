@@ -6,6 +6,6 @@ class IEDriverServer:
 
 class MultiBrowsersDemo:
     BASE_URL = 'https://www.baidu.com'
-    EXCEL_DATA_PATH = "/Users/anniezhang/Desktop/"
-    TESTING_BROWSERS = 'Firefox'
+    #EXCEL_DATA_PATH = "/Users/anniezhang/Desktop/"
+    TESTING_BROWSERS = 'firefox'
     #DRIVER_OF_CHROME = '/Users/anniezhang/Desktop/chromedriver.exe'
