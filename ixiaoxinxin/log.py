@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import datetime, sys, os
+import datetime
+import os
+import sys
+
 import xlwt
-from config import env
-import common, htmlreport
+
+import common
+import env
+import htmlreport
+
 
 def generate_result_xls():
     wbk = xlwt.Workbook()
@@ -78,7 +84,7 @@ def start_test(case_name):
     env.threadlocal.CASE_WARNINGS   = 0
     
     write_log(os.path.join("testcase", "%s.log" % (case_name)), 
-              "\n**************  Test Case [%s] [%s]  ***************\n" %(case_name, env.threadlocal.TESTING_BROWSER))
+              "\n**************  Test Case [%s] [%s]  ***************\n" % (case_name, env.threadlocal.TESTING_BROWSER))
     
     
 
@@ -107,7 +113,7 @@ def start_total_test():
     
     print  (">>>>>>  [%s]  =>  start testing......       <<<<<<" %
               (
-               env.TOTAL_START_TIME,
+                  env.TOTAL_START_TIME,
                )
            )
     
@@ -130,12 +136,13 @@ def finish_total_test():
     
     print (">>>>>>  [%s]  =>  [%s], duration [%s], case [%s], pass [%s], fail [%s]       <<<<<<" %
               (
-               env.TOTAL_START_TIME,
-               env.TOTAL_STOP_TIME,
-               datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"),
-               env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL, 
-               env.TOTAL_TESTCASE_PASS,
-               env.TOTAL_TESTCASE_FAIL,
+                  env.TOTAL_START_TIME,
+                  env.TOTAL_STOP_TIME,
+                  datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(
+                      env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"),
+                  env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL,
+                  env.TOTAL_TESTCASE_PASS,
+                  env.TOTAL_TESTCASE_FAIL,
                )
             )
     
@@ -143,14 +150,16 @@ def finish_total_test():
            ">>>>>>  [%s]  =>  [%s]" % (env.TOTAL_START_TIME, common.get_version_info())
            )
     
-    htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"), 
-                                     env.TOTAL_TESTCASE_PASS+env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL], 
+    htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(
+        env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"),
+                                     env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL],
                                     env.HTMLREPORT_TESTCASES,
                                     countdown=False)
     htmlreport.save_current_report_to_repository()
     htmlreport.generate_report_history()
-    htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"), 
-                                     env.TOTAL_TESTCASE_PASS+env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL], 
+    htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(
+        env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"),
+                                     env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL],
                                     env.HTMLREPORT_TESTCASES,
                                     countdown=True)
     
@@ -176,41 +185,45 @@ def stop_test():
             warning_message = ""
         
         if env.threadlocal.CASE_PASS == True:
-            print (u"%s    [Pass]  =>  [%s] [%s] [%s] [%s]%s" %(common.stamp_datetime(), 
-                                                        env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME, 
-                                                        env.threadlocal.MODULE_NAME, 
-                                                        env.threadlocal.CASE_NAME, 
-                                                        env.threadlocal.TESTING_BROWSER,
-                                                        warning_message
-                                                        ))
+            print (u"%s    [Pass]  =>  [%s] [%s] [%s] [%s]%s" %(common.stamp_datetime(),
+                                                                env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME,
+                                                                env.threadlocal.MODULE_NAME,
+                                                                env.threadlocal.CASE_NAME,
+                                                                env.threadlocal.TESTING_BROWSER,
+                                                                warning_message
+                                                                ))
             env.TOTAL_TESTCASE_PASS = env.TOTAL_TESTCASE_PASS + 1
             
             env.HTMLREPORT_TESTCASES.append(["%s =&gt; %s" % (env.threadlocal.CASE_START_TIME.strftime("%m-%d %H:%M:%S"), env.threadlocal.CASE_STOP_TIME.strftime("%m-%d %H:%M:%S")),
-                                             '<a href="testcase/%s.log">[%s] - %s</a>' % (env.threadlocal.CASE_NAME, env.threadlocal.MODULE_NAME, env.threadlocal.CASE_NAME),
-                                             env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME, 
+                                             '<a href="testcase/%s.log">[%s] - %s</a>' % (
+                                                 env.threadlocal.CASE_NAME, env.threadlocal.MODULE_NAME, env.threadlocal.CASE_NAME),
+                                             env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME,
                                              env.threadlocal.TESTING_BROWSER, 
                                              '<td>Pass</td>'
                                              ])
             
         else:
-            print (u"%s    [Fail]  =>  [%s] [%s] [%s] [%s]%s  :( " %(common.stamp_datetime(), 
-                                                                 env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME, 
-                                                                 env.threadlocal.MODULE_NAME, 
-                                                                 env.threadlocal.CASE_NAME, 
-                                                                 env.threadlocal.TESTING_BROWSER,
-                                                                 warning_message
-                                                                 ))
+            print (u"%s    [Fail]  =>  [%s] [%s] [%s] [%s]%s  :( " %(common.stamp_datetime(),
+                                                                     env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME,
+                                                                     env.threadlocal.MODULE_NAME,
+                                                                     env.threadlocal.CASE_NAME,
+                                                                     env.threadlocal.TESTING_BROWSER,
+                                                                     warning_message
+                                                                     ))
             env.TOTAL_TESTCASE_FAIL = env.TOTAL_TESTCASE_FAIL + 1
             
-            env.HTMLREPORT_TESTCASES.append(["%s =&gt; %s" % (env.threadlocal.CASE_START_TIME.strftime("%m-%d %H:%M:%S"),env.threadlocal.CASE_STOP_TIME.strftime("%m-%d %H:%M:%S")),
-                                             '<a href="testcase/%s.log">[%s] - %s</a>' % (env.threadlocal.CASE_NAME, env.threadlocal.MODULE_NAME, env.threadlocal.CASE_NAME),
-                                             env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME, 
+            env.HTMLREPORT_TESTCASES.append(["%s =&gt; %s" % (env.threadlocal.CASE_START_TIME.strftime("%m-%d %H:%M:%S"),
+                                                              env.threadlocal.CASE_STOP_TIME.strftime("%m-%d %H:%M:%S")),
+                                             '<a href="testcase/%s.log">[%s] - %s</a>' % (
+                                                 env.threadlocal.CASE_NAME, env.threadlocal.MODULE_NAME, env.threadlocal.CASE_NAME),
+                                             env.threadlocal.CASE_STOP_TIME - env.threadlocal.CASE_START_TIME,
                                              env.threadlocal.TESTING_BROWSER, 
                                              '<td class="tfail"><a href="screenshots/%s">Fail</a></td>' % env.HTMLREPORT_SCREENSHOT_NAME
                                              ])
         
-        htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"), 
-                                         env.TOTAL_TESTCASE_PASS+env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL], 
+        htmlreport.generate_html_report([env.TOTAL_START_TIME, env.TOTAL_STOP_TIME, datetime.datetime.strptime(
+            env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S"),
+                                         env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL, env.TOTAL_TESTCASE_PASS, env.TOTAL_TESTCASE_FAIL],
                                         env.HTMLREPORT_TESTCASES)
         
         env.threadlocal.CASE_PASS     = True
@@ -223,31 +236,32 @@ def stop_test():
 
 def step_section(message):
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "\n%s    Section: %s\n" %(common.stamp_datetime(), message))
+              "\n%s    Section: %s\n" % (common.stamp_datetime(), message))
 
 
 def step_normal(message):
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "%s    Step: %s\n" %(common.stamp_datetime(), message))
+              "%s    Step: %s\n" % (common.stamp_datetime(), message))
 
 
 def step_pass(message):
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "%s    Pass: %s\n" %(common.stamp_datetime(), message))
+              "%s    Pass: %s\n" % (common.stamp_datetime(), message))
 
 
 def step_fail(message):
     
-    screenshot_name = "Fail__%s__%s__%s.png" % (common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
+    screenshot_name = "Fail__%s__%s__%s.png" % (
+        common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)),  
-              "------------ Fail [%s] -------------------\n"%common.stamp_datetime())
+              "------------ Fail [%s] -------------------\n" % common.stamp_datetime())
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "%s    Fail: %s, Check ScreenShot [%s]\n" %(common.stamp_datetime(), message, screenshot_name))
+              "%s    Fail: %s, Check ScreenShot [%s]\n" % (common.stamp_datetime(), message, screenshot_name))
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "------------ Fail [%s] --------------------------------------------\n"%common.stamp_datetime())
+              "------------ Fail [%s] --------------------------------------------\n" % common.stamp_datetime())
     
     try:
         save_screen_shot(screenshot_name)
@@ -262,16 +276,17 @@ def step_fail(message):
 
 
 def step_warning(message):
-    screenshot_name = "Warning__%s__%s__%s.png" % (common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
+    screenshot_name = "Warning__%s__%s__%s.png" % (
+        common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "------------ Warning [%s] -------------------\n"%common.stamp_datetime())
+              "------------ Warning [%s] -------------------\n" % common.stamp_datetime())
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "%s    Warning: %s, Check ScreenShot [%s]\n" %(common.stamp_datetime(), message, screenshot_name))
+              "%s    Warning: %s, Check ScreenShot [%s]\n" % (common.stamp_datetime(), message, screenshot_name))
     
     write_log(os.path.join("testcase", "%s.log" % (env.threadlocal.CASE_NAME)), 
-              "------------ Warning [%s] --------------------------------------------\n"%common.stamp_datetime())
+              "------------ Warning [%s] --------------------------------------------\n" % common.stamp_datetime())
     
     try:
         save_screen_shot(screenshot_name)
@@ -309,7 +324,8 @@ def handle_error():
     if sys.exc_info()[0] != None:
         step_normal(common.exception_error())
         
-        screenshot_name = "Fail__%s__%s__%s.png" % (common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
+        screenshot_name = "Fail__%s__%s__%s.png" % (
+            common.stamp_datetime_coherent(), env.threadlocal.CASE_NAME, env.threadlocal.TESTING_BROWSER)
         
         try:
             save_screen_shot(screenshot_name)

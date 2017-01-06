@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from src.test.common.Basepage import WebElement
+from ixiaoxinxin.Basepage import WebElement
 from selenium.webdriver.common.by import By
 
 # class Toubao(unittest.TestCase):

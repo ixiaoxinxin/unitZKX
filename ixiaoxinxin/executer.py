@@ -11,9 +11,10 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-from config import env
+
+import common
+import env
 import log
-import  common
 
 
 def launch_browser(url):
@@ -32,7 +33,7 @@ def launch_browser(url):
                 browser = webdriver.Firefox(firefox_profile=fp)
             except:
                 if isinstance(env.RESERVED_FIREFOX_BINARY, str) and env.RESERVED_FIREFOX_BINARY != "":
-                    browser = webdriver.Firefox(firefox_profile=fp, 
+                    browser = webdriver.Firefox(firefox_profile=fp,
                                                 firefox_binary=FirefoxBinary(firefox_path=env.RESERVED_FIREFOX_BINARY))
                 else:
                     try:
@@ -46,8 +47,8 @@ def launch_browser(url):
                 env.THREAD_LOCK.release()
                 
         else:
-            browser = webdriver.Firefox(firefox_profile=fp, 
-                                            firefox_binary=FirefoxBinary(firefox_path=env.FIREFOX_BINARY))
+            browser = webdriver.Firefox(firefox_profile=fp,
+                                        firefox_binary=FirefoxBinary(firefox_path=env.FIREFOX_BINARY))
         
         
     
@@ -75,12 +76,12 @@ def launch_browser(url):
         
         os.environ['webdriver.ie.driver'] = env.DRIVER_OF_IE
         
-        browser = webdriver.Ie(executable_path=env.DRIVER_OF_IE, 
-                                   capabilities=dc)
+        browser = webdriver.Ie(executable_path=env.DRIVER_OF_IE,
+                               capabilities=dc)
     
     
     elif env.threadlocal.TESTING_BROWSER.upper() == 'PHANTOMJS':
-        browser = webdriver.PhantomJS(r'E:\\AutomationWork\\phantomjs-1.9.8-windows\\phantomjs.exe')
+        browser = webdriver.PhantomJS(r'D:\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe')
     
     
     
@@ -114,6 +115,7 @@ def __run_test_module(module):
     
     testcases = []
     for fun in dir(module):
+        #******************************判断这个函数不是系统保留字的方法，并且是函数是属于指定model的********************************
         if (not fun.startswith("__")) and (not fun.endswith("__")) and (isinstance(module.__dict__.get(fun), types.FunctionType)):
             if  module.__dict__.get(fun).__module__ == module.__name__:
                 testcases.append(fun)
@@ -162,7 +164,8 @@ def __run_test_module(module):
                     quit_browser(env.threadlocal.BROWSER)
                     env.threadlocal.BROWSER = None
                 
-                if (env.RESTART_BROWSER == False) and (env.threadlocal.BROWSER != None) and (env.threadlocal.casepass == False):
+                if (env.RESTART_BROWSER == False) and (env.threadlocal.BROWSER != None) and (
+                    env.threadlocal.casepass == False):
                     quit_browser(env.threadlocal.BROWSER)
                     env.threadlocal.BROWSER = None
     
@@ -217,7 +220,8 @@ def __run_test_case(case):
                 quit_browser(env.threadlocal.BROWSER)
                 env.threadlocal.BROWSER = None
             
-            if (env.RESTART_BROWSER == False) and (env.threadlocal.BROWSER != None) and (env.threadlocal.casepass == False):
+            if (env.RESTART_BROWSER == False) and (env.threadlocal.BROWSER != None) and (
+                env.threadlocal.casepass == False):
                 quit_browser(env.threadlocal.BROWSER)
                 env.threadlocal.BROWSER = None
     

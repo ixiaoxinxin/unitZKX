@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import os, datetime
-from config import env
+import datetime
+import os
+
 import common
+import env
+
 
 def html_source_header(title="Knitter Web Automation Test Result"):
     return """<!DOCTYPE HTML>
@@ -226,8 +229,9 @@ def save_current_report_to_repository():
     common.copy(os.path.join(env.RESULT_PATH, "result", "index.html"), report_dir)
     
     with open(os.path.join(report_dir, "status.ini"), "w") as f:
-        f.write("Duration=%s\n" % str(datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S")))
-        f.write("TotalCases=%s\n" % str(env.TOTAL_TESTCASE_PASS+env.TOTAL_TESTCASE_FAIL))
+        f.write("Duration=%s\n" % str(datetime.datetime.strptime(env.TOTAL_STOP_TIME, "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(
+            env.TOTAL_START_TIME, "%Y-%m-%d %H:%M:%S")))
+        f.write("TotalCases=%s\n" % str(env.TOTAL_TESTCASE_PASS + env.TOTAL_TESTCASE_FAIL))
         f.write("PassedCases=%s\n" % str(env.TOTAL_TESTCASE_PASS))
         f.write("FailedCases=%s\n" % str(env.TOTAL_TESTCASE_FAIL))
     

@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
-
-import datetime
-import inspect
-import os
-import shutil
-import stat
-import sys
 from platform import python_version_tuple
-
-from config import env
-import log
-
+import inspect, datetime, os,shutil,stat,sys,env,log
 
 def is_python_2():
     if python_version_tuple()[0] == '2':
@@ -217,7 +207,7 @@ def get_sub_folder_names(full_path):
     return [ name for name in os.listdir(full_path) if os.path.isdir(os.path.join(full_path, name)) ]
 
 def get_version_info():
-    from src.test.common import __version__ as ixiaoxinxin_version
+    from ixiaoxinxin import __version__ as ixiaoxinxin_version
     from selenium import __version__ as selenium_version
     from sys import version as python_version
     

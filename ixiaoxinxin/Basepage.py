@@ -6,9 +6,8 @@ import time
 
 from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
-
-from config import env
-from src.test.common import log
+import log
+import env
 
 
 class compatiblemethod(object):
