@@ -14,11 +14,16 @@ from selenium.webdriver.common.by import By
 #         (by,value)=(By.XPATH, '/html/body/table[5]/tbody/tr/td[7]/table/tbody/tr[1]/td/form/table/tbody[3]/tr[2]/td/table/tbody/tr/td[1]/a/img')
 
 class Login:
-    class kw(WebElement):
-        (by, value) = (By.ID,'kw')
+    class username(WebElement):
+        (by, value) = (By.ID, 'j_username')
 
-    class su(WebElement):
-        (by, value) = (By.ID,'su')
+    class passwd(WebElement):
+        (by, value) = (By.ID, 'j_password')
+
+    class ok(WebElement):
+        (by, value) = (By.XPATH,
+                       '/html/body/table[5]/tbody/tr/td[7]/table/tbody/tr[1]/td/form/table/tbody[3]/tr[2]/td/table/tbody/tr/td[1]/a/img')
+
 
 
 

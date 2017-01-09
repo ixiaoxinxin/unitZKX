@@ -4,4 +4,4 @@ from example.demoprj import conf
 
 from example.demoprj.testcase import feeTest
 
-executer.run(conf.MultiBrowsersDemo,feeTest)
+executer.run(conf.IEDriverServer,feeTest)

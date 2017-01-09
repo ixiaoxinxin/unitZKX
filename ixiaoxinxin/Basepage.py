@@ -143,24 +143,24 @@ class WebBrowser:
     #     env.threadlocal.BROWSER.switch_to_default_content()
 
 
-    # @compatiblemethod
-    # def SwitchToNewPopWindow(cls):
-    #     log.step_normal("SwitchToNewPopWindow()")
-    #
-    #     t = 0
-    #     while (t < 10):
-    #         t = t + 1
-    #         time.sleep(3)
-    #
-    #         if len(env.threadlocal.BROWSER.window_handles) < 2:
-    #             log.step_normal("Pop Window Not Found. Wait 3 Seconds then Try Again!")
-    #         else:
-    #             break
-    #
-    #     env.threadlocal.BROWSER.switch_to.window(env.threadlocal.BROWSER.window_handles[-1])
-    #
-    #     log.step_normal("Switch To The New Window of : %s" % str(env.threadlocal.BROWSER.window_handles))
-    #
+    @compatiblemethod
+    def SwitchToNewPopWindow(cls):
+        log.step_normal("SwitchToNewPopWindow()")
+
+        t = 0
+        while (t < 10):
+            t = t + 1
+            time.sleep(3)
+
+            if len(env.threadlocal.BROWSER.window_handles) < 2:
+                log.step_normal("Pop Window Not Found. Wait 3 Seconds then Try Again!")
+            else:
+                break
+
+        env.threadlocal.BROWSER.switch_to.window(env.threadlocal.BROWSER.window_handles[-1])
+
+        log.step_normal("Switch To The New Window of : %s" % str(env.threadlocal.BROWSER.window_handles))
+
     # @compatiblemethod
     # def SwitchToDefaultWindow(cls):
     #     log.step_normal("SwitchToDefaultWindow()")
