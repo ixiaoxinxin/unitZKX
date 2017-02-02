@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+'''
+本类主要是实现业务逻辑，通过调用对应的Page类来实现
+'''
 from example.demoprj.page import feePage
 from ixiaoxinxin import Basepage
 import time

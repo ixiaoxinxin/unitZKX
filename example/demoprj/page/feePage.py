@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-
+'''
+Page类封装了页面的控件和操作
+需要调用BasePage基类中的方法
+'''
 
 from ixiaoxinxin.Basepage import WebElement,WebBrowser
 from selenium.webdriver.common.by import By
